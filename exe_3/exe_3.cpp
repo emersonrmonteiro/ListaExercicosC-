@@ -14,30 +14,56 @@ void sair(){
     exit(1);
 }
 
-float perguntarNota(int numeroAluno){
-    float nota;
-        do{
-            printf("Digite a nota do aluno %d: \n", numeroAluno);
-            scanf(" %f", &nota);
-            
-            if(nota == 50 && numeroAluno == 1) sair();
-            if(nota >= 0 && nota <=10) return nota;
+typedef struct Notas{
+    float nota[2];
+};
 
-            printf("Entrada invalida! A nota deve estar entre 0 e 10 ou 50 para sair\n");
+void limpaHistorico(){
+    FILE *historico = fopen("historico.txt", "w");
+    fclose(historico);
+}
+
+void inserirHistorico(Notas notas, int aluno, float media){
+    FILE *historico = fopen("historico.txt", "a");
+    if (historico == NULL) printf("Ocorreu um erro ao tentar abrir o arquivo de log");
+    
+    fprintf(historico, "Aluno %d\t 1-Nota: %.2f,\t2-Nota: %.2f,\tMedia: %.2f\n", aluno, notas.nota[0], notas.nota[1], media);
+
+    fclose(historico);
+}
+
+Notas perguntarNotas(int aluno){
+    struct Notas notas;
+    bool invalido;
+    for(int i = 0; i < 2; i++){
+        do{
+            printf("Digite a %i nota do aluno %d: ", i + 1 , aluno);
+            scanf(" %f", &notas.nota[i]);
+            if(notas.nota[i] == 50 && i == 0) sair();
+            invalido = false;
+            if(notas.nota[i] < 0 || notas.nota[i] > 10){
+                printf("Entrada invalida! A nota deve estar entre 0 e 10 ou 50 para sair\n");
+                invalido = true;
+            }
         }
-        while(nota < 0 || nota > 10);
+        while(invalido);
+    }
+    return notas;
 }
 
 int main (void){
-    float nota1, nota2;
-    int aluno = 0;
+    struct Notas notas;
+    float media;
+    int aluno = 1;
+    limpaHistorico();
     printf("\n\n .: Calculadora de Medias dos alunos :.\n\t(Digite 50 para sair)\n\n");
 
     while (true){        
-        nota1 = perguntarNota(1);
-        nota2 = perguntarNota(2);
+        notas = perguntarNotas(aluno);
+        media = (notas.nota[0] + notas.nota[1]) / 2;
+        printf("Aluno %d\t 1-Nota: %.2f\t2-Nota: %.2f,\tMedia: %.2f\n", aluno, notas.nota[0], notas.nota[1], media);
+        inserirHistorico(notas,aluno, media);
         aluno++;
-        printf("Media do %d%c aluno: %.2f\n\n", aluno, 167, (nota1 + nota2)/2);
     }
     return 0;
 }

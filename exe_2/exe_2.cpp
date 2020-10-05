@@ -9,18 +9,18 @@
 
 int main (void){
     float valor1, valor2, result;
-    int novo;
+    int repetir = 1;
     char operador[1];
     bool sair = false;
     
     printf("Calculadora em C\n\n");
 
-    while (!sair){
-        printf("Digite um numero\n");
+    while (repetir == 1){
+        printf("Informe um numero: ");
         scanf("%f", &valor1);
         
         do{
-            printf("Digite a operacao (+, -, *, /)\n");
+            printf("Informe a operacao (+, -, *, /): ");
             scanf(" %s", &operador);
         }
         while(strcmp(operador, "+") != 0 &&
@@ -28,7 +28,7 @@ int main (void){
               strcmp(operador, "*") != 0 &&
               strcmp(operador, "/") != 0);
 
-        printf("Digite outro numero\n");
+        printf("Informe o segundo numero: ");
         scanf("%f", &valor2);
 
         switch (*operador)
@@ -52,15 +52,11 @@ int main (void){
         default:
             break;
         }
-        printf("\n%.2f\n", result);
+        printf("\n%.2f %s %.2f = %.2f\n", valor1, operador, valor2, result);
         system("pause");
         system("cls");
         printf("Deseja fazer outra operacao?\n1 - Sim, 2 - Nao\n");
-        scanf(" %d", &novo);
-        if(novo != 1){
-            sair = true;
-        }
-
+        scanf(" %d", &repetir);
     }
     return 0;
 }

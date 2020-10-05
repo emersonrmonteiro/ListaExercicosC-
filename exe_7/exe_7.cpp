@@ -14,12 +14,12 @@
          for(int c = 0; c < 3; c++){
              printf("Digite um n%cmero para a linha: %d, coluna: %d: ", 163, l + 1, c + 1);
              scanf("%f", &numero[l][c]);
-             if((c+1) % 2 == 0){ // Colunas pares
+             if((c+1) % 2 == 0){
                  somaColunaPar = somaColunaPar + numero[l][c];
                  contPar++;
 
              } 
-             if((l+1) % 2 == 1){ // Linhas impares
+             if((l+1) % 2 == 1){
                  somaLinhaImpar = somaLinhaImpar + numero[l][c];
                  contImpar++;
              }
